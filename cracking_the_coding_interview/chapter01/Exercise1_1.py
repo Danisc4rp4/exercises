@@ -1,5 +1,6 @@
-# -*- coding: utf-8 -*-
+credits# -*- coding: utf-8 -*-
 import unittest
+import sys
 
 def getVal(ch):
     return ord(ch)
@@ -8,8 +9,12 @@ def isUnique(s):
     """
     Implement an algorithm to determine if a string has all unique characters.
     This method is able to check unicode strings.
+    @param s: unicode string.
+    @return: boolean value, true if the unicode string does not contain 
+    any repeated char. 
     """
-    # First I create a integer (32 bit) zero (32 zero bits).
+    # First I create a bit array. The max length of a bit array in a 32bit
+    # architecture is (2^32-1)/2.
     checker = 0
     for ch in s:
         # for each character i shift the 1 as many times as the value of
@@ -24,7 +29,8 @@ def isUnique(s):
         # I update the checker with the new 1 in the position check 
         # (found using getVal).
         checker = checker | check
-    return True 
+
+    return True
 
 
 class isUniqueTest(unittest.TestCase):
@@ -33,6 +39,7 @@ class isUniqueTest(unittest.TestCase):
         self.assertEqual(isUnique('thisłopn'), True)
         self.assertEqual(isUnique('1jehwkua764392'), True)
         self.assertEqual(isUnique('1jehwkua76439211'), False)
+
 
 if __name__ == '__main__':
     unittest.main()
