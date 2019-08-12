@@ -18,8 +18,8 @@ def checkPermutation(first, second):
     # the complexity of sorted().
     return sorted(first) == sorted(second)
 
-class IsUniqueTest(unittest.TestCase):
-    def testIsUnique(self):
+class CheckPermutationTest(unittest.TestCase):
+    def testCheckPermutation(self):
         self.assertEqual(checkPermutation('aaabbbccc', 'abcabcabc'), True)
         self.assertEqual(checkPermutation('aaabbbccc', 'abcabcabcz'), False)
 
