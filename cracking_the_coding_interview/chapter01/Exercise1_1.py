@@ -1,4 +1,4 @@
-credits# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 import unittest
 import sys
 
@@ -36,7 +36,7 @@ def isUnique(s):
 class isUniqueTest(unittest.TestCase):
     def testIsUnique(self):
         self.assertEqual(isUnique('thisisfalse'), False)
-        self.assertEqual(isUnique('thisłopn'), True)
+        self.assertEqual(isUnique('this��opn'), True)
         self.assertEqual(isUnique('1jehwkua764392'), True)
         self.assertEqual(isUnique('1jehwkua76439211'), False)
 
