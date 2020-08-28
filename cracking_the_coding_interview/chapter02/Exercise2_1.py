@@ -14,6 +14,7 @@ class LinkedList(object):
     """
     def __init__(self, head=None):
         self.head = head
+        self.length = 1
         
     def insert(self, element):
         node = LinkedNode(element)
@@ -24,6 +25,7 @@ class LinkedList(object):
             while head.next:
                 head = head.next
             head.next = node
+        self.length += 1
 
         
     def remove(self, element, head=None, prev=None):
@@ -40,6 +42,7 @@ class LinkedList(object):
                 else:
                     head = head.next
                     self.head = head
+                self.length -= 1
             else:
                 prev = head
                 head = head.next
