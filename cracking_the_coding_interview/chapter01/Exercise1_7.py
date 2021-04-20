@@ -1,27 +1,45 @@
 # -*- coding: utf-8 -*-
 import unittest
 
+def matrixLineRotate(rotate, mline):
+    for i in range(len(mline)):
+        rotate[i] = [mline[i]] + rotate[i]
+
 def rotateMatrix(matrixToRotate):
     """
-    Given an image represented by an NxN matrix, where each pixel in the image is 4
-    bytes, write a method to rotatethe image by 90 degrees. Can you do this in place?
-    @param matrixToRotate: the matrix to rotate by 90 degrees.
+    O(n) n matrix dimension
     @return: returns the matrix rotated by 90 degrees.
     """
-    matrixDimension = len(matrixToRotate)
-    # Note: it's impossible to initialise rotatedMatrix to the value of matrixToRotate
-    # (rotatedMatrix = matrixToRotate). Doing that equals to point to the same object, 
-    # and the value of matrixToRotate would be overridden.
-    rotatedMatrix = [[0 for _ in range(matrixDimension)] for _ in range(matrixDimension)]
-    for matrixIndex in range(matrixDimension):
-        for layerIndex in range(matrixDimension):
-            rotatedMatrix[layerIndex][matrixDimension - 1 - matrixIndex] = matrixToRotate[matrixIndex][layerIndex]
-    return rotatedMatrix
+    rotate = [[] for _ in range(len(matrixToRotate[0]))]
+    for mline in matrixToRotate:
+        matrixLineRotate(rotate, mline)
+    return rotate
 
+class MatrixTestCase():
+
+    def __init__(self, matrix, expectedResult):
+        self.matrix = matrix
+        self.expectedResult = expectedResult
 
 class RotateMatrixTest(unittest.TestCase):
+
+    @staticmethod
+    def _getIntMatrix(n, m):
+        return [[1 + i*m + j for j in range(m)] for i in range(n)]
+
     def testRotateMatrix(self):
-        self.assertEqual(rotateMatrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]]), [[7, 4, 1], [8, 5, 2], [9, 6, 3]])
+        testCases = {
+            0: MatrixTestCase(self._getIntMatrix(3, 4), [ [9, 5, 1], [10, 6, 2], [11, 7, 3], [12, 8, 4] ]),
+            1: MatrixTestCase(self._getIntMatrix(3, 3), [ [7, 4, 1], [8, 5, 2], [9, 6, 3] ])
+        }
+
+        testcase1 = testCases.get(0)
+        res1 = rotateMatrix(testcase1.matrix)
+        self.assertEqual(res1, testcase1.expectedResult)
+
+        testcase2 = testCases.get(1)
+        res2 = rotateMatrix(testcase2.matrix)
+        self.assertEqual(res2, testcase2.expectedResult)
 
 
 if __name__ == '__main__':

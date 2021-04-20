@@ -3,29 +3,24 @@ import unittest
 
 def isPermutationOfPalindrome(word):
     """
-    Given a string, write a function to check if it is a permutation of
-    a palindrome. A palindrome is a word or phrase that is the same
-    forwards and backwards. A permutation is a rwearrangement of letters.
-    A palindrome does not need to be limited to just dictionary words.
+    O(n)
     @param s: string.
     @return: returns True if the string is a permutation of a palindrome,
     False otherwise.  
     """
-    word = sorted(word)
-    map = {}
+    chmap = {}
     for ch in word:
-        if map.get(ch):
-            map[ch] = 0
+        if ch in chmap:
+            chmap[ch] += 1
         else:
-            map[ch] = 1
-    if len(word)%2:
-        return len([map[k] for k in map if map[k]]) == 1
-    return not [map[k] for k in map if map[k]]
+            chmap[ch] = 1
+    print(chmap)
+    return len([chmap[el] for el in chmap if chmap[el]%2 > 0]) == len(word)%2
     
 
 class IsPermutationOfPalindromeTest(unittest.TestCase):
     def testIsPermutationOfPalindrome(self):
-        self.assertEqual(isPermutationOfPalindrome('afygyuygyfadu'), True)
+        self.assertEqual(isPermutationOfPalindrome('aaaaffffddddc'), True)
 
 
 if __name__ == '__main__':

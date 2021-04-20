@@ -1,35 +1,26 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-def stringCompression(stringToCompress=[]):
+def stringCompression(stringToCompress):
     """
-    Implement a method to perform basic string compression using the counts of
-    repeated characters. For example, the string aabcccccaaa would become a2b1c5a3.
-    If the "compressed" string would not become smaller than the original string,
-    your method shold return the original string. You can assume the string has only 
-    uppercase and lowercase letters (a - z).
+    O(n)
     @param aString: first string.
     @return: returns the compressed string.
     """
-    previouslyChecked = None
-    compressedString = ""
-    seenTimes = 0
-    for charToCheck in stringToCompress:
-        if charToCheck != previouslyChecked:
-            compressedString += (seenTimes > 1 and str(seenTimes) or '') + charToCheck
-            seenTimes = 1
-        else:
-            seenTimes += 1
-        previouslyChecked = charToCheck
-    compressedString += seenTimes > 1 and str(seenTimes) or ''
-    return len(compressedString) < len(stringToCompress) and compressedString or stringToCompress
-
+    if not len(stringToCompress):
+        return ""
+    firstChar = stringToCompress[0]
+    last = 0
+    while last < len(stringToCompress) and stringToCompress[last] == firstChar:
+        last += 1 
+    return firstChar + str(last) + stringCompression(stringToCompress[last:])
+    
 
 class StringCompressionTest(unittest.TestCase):
     def testStringCompression(self):
         self.assertEqual(stringCompression('aaabbbccc'),'a3b3c3')
-        self.assertEqual(stringCompression('aabbcc'), 'aabbcc')
-        self.assertEqual(stringCompression('aabbc'), 'aabbc')
+        self.assertEqual(stringCompression('aabbcc'), 'a2b2c2')
+        self.assertEqual(stringCompression('aabbc'), 'a2b2c1')
 
 
 if __name__ == '__main__':

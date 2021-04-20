@@ -6,8 +6,7 @@ COL_KEY = 'columns'
 
 def zeroMatrix(matrix):
     """
-    Write an algorithm such that if an element in a MxN matrix is 0, its entire
-    row and column are set to 0.
+    ...
     @param matrix: the matrix.
     @return: returns the matrix with zeros set.
     """

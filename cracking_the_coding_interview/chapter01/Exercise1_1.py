@@ -7,8 +7,7 @@ def getVal(ch):
 
 def isUnique(s):
     """
-    Implement an algorithm to determine if a string has all unique characters.
-    This method is able to check unicode strings.
+    O(n)
     @param s: unicode string.
     @return: boolean value, true if the unicode string does not contain 
     any repeated char. 
@@ -20,9 +19,9 @@ def isUnique(s):
         # for each character i shift the 1 as many times as the value of
         # the char, calculated as for the getVal method.
         check = (1 << getVal(ch))
-        # if checker and check > 0 means that that the one has been
-        # shfted already the same positions, that means that the 
-        # same letter has been found previously. In this case the 
+        # if checker && check > 0 means that the char has been
+        # shifted already in the same position, and that means that the 
+        # same letter occurred previously. In this case the 
         # string is not unique (return False).
         if (checker & check) > 0:
             return False
