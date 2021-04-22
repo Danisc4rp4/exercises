@@ -1,58 +1,68 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-STACKTYPE_FIRST = 1
-STACKTYPE_SECOND = 2
-STACKTYPE_THIRD = 3
 
-def threeInOne():
-    """
-    Use a single array to implement three stacks
-    @return: returns the array.
-    """
-    stackArray = []
+def getEmptyThreeStackArray():
+    return [ 0, 0, 0]
 
-    # Length of the stacks
-    firstStack = 0
-    secondStack = 0
-    thirdStack = 0
+def getStack(threeStacksArray, stackNum):
+    stack1Index = 0
+    stack1Len = threeStacksArray[stack1Index]
+    stack1 = stack1Len == 0 and [] or threeStacksArray[1:1+stack1Len]
 
-    def AddToStack(stack, item, stackArray, firstStack, secondStack, thirdStack):
-        firstArray = firstStack and stackArray[:firstStack] or []
-        secondArray = secondStack and stackArray[firstStack:firstStack + secondStack] or []
-        thirdArray = thirdStack and stackArray[firstStack + secondStack:firstStack + secondStack + thirdStack] or []
+    stack2Index = 1 + stack1Len
+    stack2Len = threeStacksArray[stack2Index]
+    stack2 = stack2Len == 0 and [] or threeStacksArray[stack2Index+1:stack2Index+1+stack2Len]
 
-        if stack == STACKTYPE_FIRST:
-            firstArray.append(item)
-            firstStack += 1
-        elif stack == STACKTYPE_SECOND:
-            secondArray.append(item)
-            secondStack += 1
-        else:
-            thirdArray.append(item)
-            thirdStack += 1
+    stack3Index = stack2Index + 1 + stack2Len
+    stack3Len = threeStacksArray[stack3Index]
+    stack3 = stack3Len == 0 and [] or threeStacksArray[stack3Index+1:]
+    stackSwitcher = {
+        1: stack1,
+        2: stack2,
+        3: stack3
+    }
+    return stackSwitcher.get(stackNum)
 
-        stackArray = firstArray + secondArray + thirdArray
+def getStackWithAdd(valToAdd, currentStack):
+    return [valToAdd] + currentStack
 
-        return (stackArray, firstStack, secondStack, thirdStack)
-
-    (stackArray, firstStack, secondStack, thirdStack) = AddToStack(STACKTYPE_FIRST, 0, stackArray, firstStack, secondStack, thirdStack)
-    (stackArray, firstStack, secondStack, thirdStack) = AddToStack(STACKTYPE_SECOND, 1, stackArray, firstStack, secondStack, thirdStack)
-    (stackArray, firstStack, secondStack, thirdStack) = AddToStack(STACKTYPE_FIRST, 1, stackArray, firstStack, secondStack, thirdStack)
-
-    return (stackArray, firstStack, secondStack, thirdStack)
+def addTothreeStacksArray(threeStackArray, valToAdd, stackNum):
+    stack1 = getStack(threeStackArray, 1)
+    stack2 = getStack(threeStackArray, 2)
+    stack3 = getStack(threeStackArray, 3)
+    if stackNum == 1:
+        stack1 = getStackWithAdd(valToAdd, stack1)
+    if stackNum == 2:
+        stack2 = getStackWithAdd(valToAdd, stack2)
+    if stackNum == 3:
+        stack3 = getStackWithAdd(valToAdd, stack3)
+    return [len(stack1)] + stack1 + [len(stack2)] + stack2 + [len(stack3)] + stack3
 
 
 class ThreeInOneTest(unittest.TestCase):
     def testThreeInOne(self):
         """
             Test three stacks in one array:
-            [0, 1] [1] []
+            [1, 10, 2, 11, 12, 1, 13]
             result should be:
-            ( [0, 1, 1 ], 2, 1, 0 )
+            [ [10], [11, 12], [13] ]
             
-        """        
-        self.assertEqual(threeInOne(), ( [0, 1, 1 ], 2, 1, 0 ))
+        """
+        threeStacksArray = getEmptyThreeStackArray()
+        threeStacksArray = addTothreeStacksArray(threeStacksArray, 10, 1)       
+        threeStacksArray = addTothreeStacksArray(threeStacksArray, 11, 2)       
+        threeStacksArray = addTothreeStacksArray(threeStacksArray, 12, 2)
+        threeStacksArray = addTothreeStacksArray(threeStacksArray, 13, 3)    
+
+        listOfStacks = []
+        listOfStacks.append(getStack(threeStacksArray, 1))
+        listOfStacks.append(getStack(threeStacksArray, 2))
+        listOfStacks.append(getStack(threeStacksArray, 3))   
+       
+        self.assertEqual(listOfStacks, [ [10], [12, 11], [13] ])
+
+        # TODO: Implement pop()
         
 
 if __name__ == '__main__':

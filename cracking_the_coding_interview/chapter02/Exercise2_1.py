@@ -1,80 +1,33 @@
 # -*- coding: utf-8 -*-
 import unittest
-
-
-class LinkedNode(object):
-    def __init__(self, val=None):
-        self.next = None
-        self.val = val
+from utils.LinkedNode import LinkedNode
         
-
-class LinkedList(object):
+def removeDups(head):
     """
-    The class Linked List can be empty.
-    """
-    def __init__(self, head=None):
-        self.head = head
-        self.length = 1
-        
-    def insert(self, element):
-        node = LinkedNode(element)
-        if not self.head:
-            self.head = node
-        else:
-            head = self.head
-            while head.next:
-                head = head.next
-            head.next = node
-        self.length += 1
-
-        
-    def remove(self, element, head=None, prev=None):
-        """
-        Removes a node from the linked list if the node has the value 'element'.
-        if head is specified, the function starts from that node, otherwise from list head.
-        """
-        head = not head and self.head or head
-        while head:
-            if head.val == element:
-                if prev:
-                    prev.next = head.next
-                    head = head.next
-                else:
-                    head = head.next
-                    self.head = head
-                self.length -= 1
-            else:
-                prev = head
-                head = head.next
-        
-    def __str__(self, *args, **kwargs):
-        head = self.head
-        res = ""
-        while head:
-            res += head.val and str(head.val) or ""
-            head = head.next
-        return res
-            
-        
-def removeDups(linkedList):
-    """
-    Write code to remove duplicates from an unsorted linked list.
+    ...
     @param linkedList: the linked list.
     @return: returns the linked list without duplicates
     """
-    head = linkedList.head
-    while head and head.next:
-        linkedList.remove(head.val, head.next, head)
+    valMap = set()
+    current = head
+    prev = None
+    while current:
+        if head.val in valMap:
+            prev.next = current.next
+        else:
+            valMap.add(head.val)
+            prev = current
+        current = current.next
+
+def getAsList(head):
+    res = []
+    while head:
+        res.append(head.val)
         head = head.next
-    return linkedList
-    
+    return res
+
 
 class RemoveDupsTest(unittest.TestCase):
-    def testNodeInsert(self):
-        """
-        Test node insert.
-        """
-        pass
         
     def testremoveDups(self):
         """
@@ -84,18 +37,28 @@ class RemoveDupsTest(unittest.TestCase):
             1 -> 3 -> 9 -> 2 -> 5
             
         """
-        head = LinkedNode(1)
-        linkedList = LinkedList(head)
-        linkedList.insert(3)
-        linkedList.insert(1)
-        linkedList.insert(9)
-        linkedList.insert(3)
-        linkedList.insert(2)
-        linkedList.insert(1)
-        linkedList.insert(3)
-        linkedList.insert(5)
+        n1 = LinkedNode(1)
+        n2 = LinkedNode(1)
+        n3 = LinkedNode(1)
+        n4 = LinkedNode(1)
+        n5 = LinkedNode(1)
+        n6 = LinkedNode(1)
+        n7 = LinkedNode(1)
+        n8 = LinkedNode(1)
+        n9 = LinkedNode(1)
         
-        self.assertEqual(str(removeDups(linkedList)), "13925")
+        n1.next = n2
+        n2.next = n3
+        n3.next = n4
+        n4.next = n5
+        n5.next = n6
+        n6.next = n7
+        n7.next = n8
+        n8.next = n9
+
+        removeDups(n1)
+        
+        self.assertEqual(getAsList(n1), [1])
         
 
 if __name__ == '__main__':
